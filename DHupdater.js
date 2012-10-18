@@ -143,50 +143,52 @@ function DHUpdater(opts) {
 			});
 		}
 	};
-}
+	
 
-// helper function to make requests to the Dreamhost API
-function dhRequest(params, cb) {
-	_.defaults(params, {
-		key: opts.apiKey,
-		format: 'json'
-	});
-
-	var req = request({uri: opts.dhApiDomain, qs: params}, function(err, res, body) {
-		if (!err) {
-			if (res.statusCode !== 200) {
-				err = new Error(util.format("Upexpected status %s from %s", res.statusCode, req.uri));
-			} else {
-				try {
-					body = JSON.parse(body);
-				} catch (jsonEx) {
-					err = new Error("Error parsing dreamhost response");
+	// helper function to make requests to the Dreamhost API
+	function dhRequest(params, cb) {
+		_.defaults(params, {
+			key: opts.apiKey,
+			format: 'json'
+		});
+	
+		var req = request({uri: opts.dhApiDomain, qs: params}, function(err, res, body) {
+			if (!err) {
+				if (res.statusCode !== 200) {
+					err = new Error(util.format("Upexpected status %s from %s", res.statusCode, req.uri));
+				} else {
+					try {
+						body = JSON.parse(body);
+					} catch (jsonEx) {
+						err = new Error("Error parsing dreamhost response");
+					}
+				}
+				
+				if (!body.data) {
+					err = new Error("Dreamhost response has no data");
+				}
+				
+				if (body.result == "error") {
+					err = new Error(util.format("Dreamhost API reported an error: %s", body.data));
 				}
 			}
 			
-			if (!body.data) {
-				err = new Error("Dreamhost response has no data");
+			if (err) {
+				err.uri = req.uri;
+				err.params = params;
+				err.body = body;
+				//err.request = req;
+				//err.response = res;
+				cb(err);
+				return;
 			}
 			
-			if (body.result == "error") {
-				err = new Error(util.format("Dreamhost API reported an error: %s", body.data));
-			}
-		}
+			cb(null, body);
+		});
 		
-		if (err) {
-			err.uri = req.uri;
-			err.params = params;
-			err.body = body;
-			//err.request = req;
-			//err.response = res;
-			cb(err);
-			return;
-		}
-		
-		cb(null, body);
-	});
-	
-	return req;
+		return req;
+	}
+
 }
 
 DHUpdater.NO_CHANGE = 'IP already up-to-date, no change was applied.';

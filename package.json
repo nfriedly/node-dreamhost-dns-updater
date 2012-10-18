@@ -1,0 +1,24 @@
+{
+	"name": "node-dreamhost-dns-updater",
+	"version": "1.0.0",
+	"description": "Uses Dreamhost's API to make a given domain or subdomain point to your current IP address. Set it up as a cron job and forget about it."
+	"dependencies": {
+		"async": "0.1.x",
+		"optimist": "0.3.x",
+		"request": "2.11.x",
+		"underscore": "1.4.x"
+	},
+	"engines": {
+		"node": "0.8.x",
+		"npm": "1.1.x"
+	},
+	"author" : "Nathan Friedly - http://nfriedly.com",
+	"main": "DHUpdater.js",
+	"repository": {
+		"type": "git", 
+		"url": "git://github.com/nfriedly/node-dreamhost-dns-updater.git"
+	},
+	"bin": {
+		"update-dreamhost-dns": "./cli.js" 
+	}
+}
