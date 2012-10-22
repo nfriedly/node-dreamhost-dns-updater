@@ -27,6 +27,11 @@ runs the script every 5 minutes:
 	# (0-59)  (0-23)     (1-31)    (1-12 or Jan-Dec)  (0-6 or Sun-Sat)                
     	*/5      *         *              *               *                update-dreamhost-dns --api_key YOUR_DH_API_KEY --domain my-computer.example.com
 
+On Windows, you can set up a Scheduled Task with the same command.
+
+On Mac you can alternatively download the excelent [SleepWatcher](http://www.bernhard-baehr.de/) 
+and make it run any time you computer wakes from sleep.
+
 MIT License
 -----------
 
