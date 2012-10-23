@@ -11,7 +11,7 @@ function DHUpdater(opts) {
 		apiKey: '', // from https://panel.dreamhost.com/?tree=home.api
 		domain: '',
 		noComment: false,
-		ipService: 'http://whats-my-ip.herokuapp.com/text', // should return a single line of text with your public IP
+		ipService: 'http://whatsmyip.nfriedly.com/text', // should return a single line of text with your public IP
 		dhApiDomain: 'https://api.dreamhost.com/'
 	});
 
