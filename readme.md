@@ -2,8 +2,9 @@ Dreamhost DNS updater
 =====================
 
 This is a simple script to keep a given domain name always pointing to your curent IP. 
-It uses [Dreamhost's API](http://wiki.dreamhost.com/API) and a copy of [node-heroku-ip-service](https://github.com/nfriedly/node-heroku-ip-service) hosted at 
-http://whats-my-ip.herokuapp.com/
+It uses [Dreamhost's API](http://wiki.dreamhost.com/API) and a copy of 
+[node-heroku-ip-service](https://github.com/nfriedly/node-whats-my-ip) hosted at 
+http://whatsmyip.nfriedly.com/
 
 Usage
 -----
