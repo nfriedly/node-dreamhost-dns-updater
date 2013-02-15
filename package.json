@@ -1,6 +1,6 @@
 {
 	"name": "node-dreamhost-dns-updater",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Uses Dreamhost's API to make a given domain or subdomain point to your current IP address. Set it up as a cron job and forget about it.",
 	"dependencies": {
 		"async": "0.1.x",

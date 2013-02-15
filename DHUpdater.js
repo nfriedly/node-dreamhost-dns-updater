@@ -124,7 +124,7 @@ function DHUpdater(opts) {
 		};
 		if (oldIp) {
 			params.cmd = "dns-remove_record";
-			params.ip = oldIp;
+			params.value = oldIp;
 			dhRequest(params, function(err, res) {
 				if (err) {
 					cb(err);
