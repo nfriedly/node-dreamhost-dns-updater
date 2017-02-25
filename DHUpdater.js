@@ -11,7 +11,7 @@ function DHUpdater(opts) {
 		apiKey: '', // from https://panel.dreamhost.com/?tree=home.api
 		domain: '',
 		noComment: false,
-		ipService: 'http://whatsmyip.nfriedly.com/text', // should return a single line of text with your public IP
+		ipService: 'http://ip.nfriedly.com/text', // should return a single line of text with your public IP
 		dhApiDomain: 'https://api.dreamhost.com/'
 	});
 
@@ -19,12 +19,12 @@ function DHUpdater(opts) {
 		throw 'Plese specify the Dreamhost API key as the `apiKey: "YOUR_KEY"` option. Get it by creating' +
 			' a key with "All dns functions" at https://panel.dreamhost.com/?tree=home.api';
 	}
-	
+
 	if (!opts.domain || opts.domain.indexOf("/") !== -1) {
 		throw 'Please specify the domain in the format `domain: "example.com"`.';
 	}
-	
-	
+
+
 	// done with setup, everything below here is to be called later on
 
 	/**
@@ -46,13 +46,13 @@ function DHUpdater(opts) {
 		});
 		return req;
 	};
-	
+
 	/**
 	 * Finds the IP of options.domain by querying the Dreamhost API and searching for an A record.
 	 * If your domain is currently a CNAME, this won't work.
 	 *
 	 * @param cb: function(err, ip);
-	 */	
+	 */
 	this.getDomainIp = function(cb) {
 		var params = {
 			cmd: 'dns-list_records'
@@ -67,7 +67,7 @@ function DHUpdater(opts) {
 				// cname values get returned so that we know to delete them before updating.
 				return row.record === opts.domain && (row.type === "A");
 			});
-			
+
 			if (!record.length) {
 				cb(null, null); // no current ip
 			} else {
@@ -85,7 +85,7 @@ function DHUpdater(opts) {
 	 * Either an error or a status object will be passed to the callback.
 	 *
 	 * The status passed to the callback is either DHUpdater.SUCCESS or DHUpdater.NO_CHANGE
-	 */	
+	 */
 	this.update = function(cb) {
 		async.parallel({myIp: self.getMyIp, domainIp: self.getDomainIp}, function(err, results) {
 			if (err) {
@@ -107,14 +107,14 @@ function DHUpdater(opts) {
 	};
 
 	/**
-	 * Sets opts.domain to ip. 
+	 * Sets opts.domain to ip.
 	 *
 	 * @param ip: the new IP
 	 * @param oldIp: The ip to delete before creating the record for the new IP. Set to null to disable.
 	 * @param cb: function(err);
 	 *
 	 * The callback is called with either an Error or null.
-	 */	
+	 */
 	this.setIp = function(ip, oldIp, cb) {
 		var params = {
 			cmd: "dns-add_record",
@@ -143,7 +143,7 @@ function DHUpdater(opts) {
 			});
 		}
 	};
-	
+
 
 	// helper function to make requests to the Dreamhost API
 	function dhRequest(params, cb) {
@@ -151,7 +151,7 @@ function DHUpdater(opts) {
 			key: opts.apiKey,
 			format: 'json'
 		});
-	
+
 		var req = request({uri: opts.dhApiDomain, qs: params}, function(err, res, body) {
 			if (!err) {
 				if (res.statusCode !== 200) {
@@ -163,16 +163,16 @@ function DHUpdater(opts) {
 						err = new Error("Error parsing dreamhost response");
 					}
 				}
-				
+
 				if (!body.data) {
 					err = new Error("Dreamhost response has no data");
 				}
-				
+
 				if (body.result == "error") {
 					err = new Error(util.format("Dreamhost API reported an error: %s", body.data));
 				}
 			}
-			
+
 			if (err) {
 				err.uri = req.uri;
 				err.params = params;
@@ -182,10 +182,10 @@ function DHUpdater(opts) {
 				cb(err);
 				return;
 			}
-			
+
 			cb(null, body);
 		});
-		
+
 		return req;
 	}
 
