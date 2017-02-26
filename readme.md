@@ -1,10 +1,13 @@
 Dreamhost DNS updater
 =====================
 
-This is a simple script to keep a given domain name always pointing to your curent IP. 
+This is a simple script to keep a given domain name always pointing to your current IP, 
+basically turning DreamHost into a dynamic DNS provider, similar to no-ip.com or dyn.com.
+
+
 It uses [Dreamhost's API](http://wiki.dreamhost.com/API) and a copy of 
 [node-heroku-ip-service](https://github.com/nfriedly/node-whats-my-ip) hosted at 
-http://whatsmyip.nfriedly.com/
+http://ip.nfriedly.com/
 
 Usage
 -----
@@ -20,6 +23,9 @@ Now get a Dreamhost API key with "All dns functions" from https://panel.dreamhos
 Run it once to make sure it works:
 
     update-dreamhost-dns --api_key YOUR_DH_API_KEY --domain my-computer.example.com
+    
+Note: it will fail if you target a subdomain that is currently a CNAME record. 
+In that case, delete the subdomain and then try again.
 
 Assuming that went well, set it in a cronjob and forget about it. Here's an example that 
 runs the script every 5 minutes:
@@ -30,13 +36,13 @@ runs the script every 5 minutes:
 
 On Windows, you can set up a Scheduled Task with the same command.
 
-On Mac you can alternatively download the excelent [SleepWatcher](http://www.bernhard-baehr.de/) 
+On Mac you can alternatively download the excellent [SleepWatcher](http://www.bernhard-baehr.de/) 
 and make it run any time you computer wakes from sleep.
 
 MIT License
 -----------
 
-Copyright (c) 2012 by Nathan Friedly - http://nfriedly.com
+Copyright (c) 2017 by Nathan Friedly - http://nfriedly.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
