@@ -133,7 +133,7 @@ function DHUpdater(opts) {
 				self.setIp(ip, null, cb);
 			});
 		} else {
-			params.comment = "Updated by node-dreamhost-dns-updater at " + (new Date()).toString();
+			params.comment = "Updated by dreamhost-dns-updater at " + (new Date()).toString();
 			dhRequest(params, function(err, res) {
 				if (err) {
 					cb(err);
