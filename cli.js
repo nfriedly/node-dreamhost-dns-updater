@@ -7,28 +7,29 @@ var argv = require('optimist')
     .wrap(80)
     .option('api_key', {
         alias : 'k',
-        desc : 'Dreamhost apiKey, needs "All dns functions". Get it at https://panel.dreamhost.com/?tree=home.api'
+        desc : 'DreamHost API Key, needs "All dns functions". Get it at https://panel.dreamhost.com/?tree=home.api'
     })
     .option('domain', {
         alias : 'd',
-        desc: 'The domain name you want pointing to this location. For best results, manually configure this as an A record first and then rely on this script to keep it up-to-date.'
+        desc: 'The domain name you want pointing to this location.'
     })
     .check(function (argv) {
         if (argv.help) throw '';
 
         if(!argv.api_key || !argv.domain) {
-            throw 'Please specify an apiKey and a domain';
+            throw 'Please specify a --api_key and a --domain';
         }
     })
     .argv;
 
 
-new DHUpdater({apiKey: argv.api_key, domain: argv.domain}).update(function(err, res) {
-	if (err) {
-		console.error(err);
-		process.exit(1);
-	}
+new DHUpdater({apiKey: argv.api_key, domain: argv.domain})
+  .update()
+  .then(function(res) {
 	console.log(res);
 	process.exit(0);
-});
+  }).catch(function(err) {
+    console.error(err);
+    process.exit(1);
+  });
 
