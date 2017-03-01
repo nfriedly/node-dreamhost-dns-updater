@@ -87,7 +87,7 @@ class DHUpdater {
 						type: "A",
 						value: myIp,
 					  }))
-					  .then((data) => {return {changed: true, status: DHUpdater.SUCCESS, ip: myIp}})
+					  .then(() => {return {changed: true, status: DHUpdater.SUCCESS, ip: myIp}})
 					);
 			}
 		});
