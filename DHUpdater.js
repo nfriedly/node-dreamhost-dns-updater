@@ -100,9 +100,7 @@ class DHUpdater {
 DHUpdater.defaults = {
   apiKey: '', // from https://panel.dreamhost.com/?tree=home.api
   domain: '',
-  ttl: 10,
   ipService: 'http://ip.nfriedly.com/text', // should return a single line of text with your public IP
-  dhApiDomain: 'https://api.dreamhost.com/'
 };
 
 
