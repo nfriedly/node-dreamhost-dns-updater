@@ -54,19 +54,13 @@ class DHUpdater {
 	 *
 	 * Resolves to the current IP address or null if the record does not currently exist as an A record
 	 *
-	 * @param Promise<Object|null>
+	 * @param Promise<Object|undefined>
 	 */
 	getDomainRecord() {
-		return this.dhDns.listRecords().then(body => {
-			const record = body.data.filter(function(row) {
+		return this.dhDns.listRecords({}).then(records => {
+			return records.filter(row => {
 				return row.record === this.opts.domain && (row.type === "A" || row.type === 'CNAME');
-			});
-
-			if (!record.length) {
-				return null; // no current ip
-			} else {
-				return record[0];
-			}
+			})[0];
 		});
 	};
 	/**
@@ -83,20 +77,23 @@ class DHUpdater {
 		  	this.getDomainRecord()
 		]).then(results => {
 			const [myIp, domainRecord] = results;
-			if (myIp === domainRecord.value) {
+			if (domainRecord && myIp === domainRecord.value) {
 				return {changed: false, status: DHUpdater.NO_CHANGE, ip: myIp}
 			} else {
-				return this.dhDns.removeRecord(domainRecord)
-				  .then(this.dhDns.addRecord({
-                    record: opts.domain,
-                    type: "A",
-                    value: myIp,
-                    comment: "Updated by dreamhost-dns-updater at " + (new Date()).toString()
-				  }))
-				  .then(() => {return {changed: true, status: DHUpdater.SUCCESS, ip: results.myIp}})
+				return (
+				  (domainRecord ? this.dhDns.removeRecord(domainRecord) : Promise.resolve())
+					  .then(() => this.dhDns.addRecord({
+						record: this.opts.domain,
+						type: "A",
+						value: myIp,
+					  }))
+					  .then((data) => {return {changed: true, status: DHUpdater.SUCCESS, ip: myIp}})
+					);
 			}
 		});
 	};
+
+
 
 }
 
