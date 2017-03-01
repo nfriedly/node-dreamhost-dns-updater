@@ -1,32 +1,26 @@
-Dreamhost DNS updater
-=====================
+DreamHost Dynamic DNS updater
+=============================
 
-This is a simple script to keep a given domain name always pointing to your current IP, 
-basically turning DreamHost into a dynamic DNS provider, similar to no-ip.com or dyn.com.
+This is a simple script to keep a domain or subdomain always pointing to your current IP, basically
+turning [DreamHost](https://www.dreamhost.com/r.cgi?225072) into a dynamic DNS provider - similar
+to no-ip.com or dyn.com.
 
-
-It uses [Dreamhost's API](http://wiki.dreamhost.com/API) and a copy of 
-[node-heroku-ip-service](https://github.com/nfriedly/node-whats-my-ip) hosted at 
-http://ip.nfriedly.com/
+It uses the [dreamhost](https://www.npmjs.com/package/dreamhost) package to connect to DreamHost's API
+and http://ip.nfriedly.com/ to determine your IP address.
 
 Usage
 -----
 
-Warning: this is still a work in progress, I haven't even tried these instructions yet.
+First install it globally
 
-First install it
-
-    npm install node-dreamhost-dns-updater
+    npm install --global node-dreamhost-dns-updater
     
-Now get a Dreamhost API key with "All dns functions" from https://panel.dreamhost.com/?tree=home.api  
+Now get a DreamHost API key with "All dns functions" from https://panel.dreamhost.com/?tree=home.api  
 
 Run it once to make sure it works:
 
     update-dreamhost-dns --api_key YOUR_DH_API_KEY --domain my-computer.example.com
     
-Note: it will fail if you target a subdomain that is currently a CNAME record. 
-In that case, delete the subdomain and then try again.
-
 Assuming that went well, set it in a cronjob and forget about it. Here's an example that 
 runs the script every 5 minutes:
 
@@ -38,6 +32,8 @@ On Windows, you can set up a Scheduled Task with the same command.
 
 On Mac you can alternatively download the excellent [SleepWatcher](http://www.bernhard-baehr.de/) 
 and make it run any time you computer wakes from sleep.
+
+Note: it currently only works on IPv4 addresses. PRs are welcome to add IPv6 Support.
 
 MIT License
 -----------

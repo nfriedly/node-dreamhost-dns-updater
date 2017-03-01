@@ -4,8 +4,9 @@
   "description": "Dynamic DNS client. Uses Dreamhost's API to make a given domain or subdomain point to your current IP address. Set it up as a cron job and forget about it.",
   "dependencies": {
     "dreamhost": "^1.0.4",
+    "is-ip": "^2.0.0",
     "node-fetch": "^1.6.3",
-    "optimist": "0.3.x"
+    "optimist": "0.6.x"
   },
   "keywords": [
     "dreamhost",

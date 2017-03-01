@@ -2,6 +2,7 @@
 
 const fetch = require('node-fetch');
 const DreamHostDNS = require('dreamhost/dns');
+const isIp = require('is-ip');
 
 class DHUpdater {
 	constructor(opts) {
@@ -28,7 +29,13 @@ class DHUpdater {
 		return fetch(this.opts.ipService)
 		  .then(res => {
 		  	if (res.ok) {
-		  		return res.text();
+		  		return res.text()
+				  .then(ip => {
+				  	if (!isIp.v4(ip)) {
+				  		throw new Error(`Not a valid ipv4 address: ${ip}`);
+					}
+					return ip;
+				  });
             } else {
 		  		return res.text()
 				  .then(body => {
