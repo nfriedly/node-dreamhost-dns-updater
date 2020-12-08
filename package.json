@@ -5,7 +5,7 @@
 	"dependencies": {
 		"async": "0.1.x",
 		"optimist": "0.3.x",
-		"request": "2.11.x",
+		"request": ">=2.68.0",
 		"underscore": "1.4.x"
 	},
 	"engines": {
